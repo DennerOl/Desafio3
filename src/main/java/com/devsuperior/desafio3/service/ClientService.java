@@ -33,4 +33,30 @@ public class ClientService {
 		return result.map(x -> new ClientDTO(x));
 	}
 	
+	@Transactional
+	public ClientDTO inserir (ClientDTO dto) {
+		Client entidade = new Client();
+		copiaDto(dto, entidade);
+		entidade = repository.save(entidade);
+		return new ClientDTO(entidade);
+	}
+	
+	@Transactional
+	public ClientDTO atualizar (Long id, ClientDTO dto) {
+		Client entidade = repository.getReferenceById(id);
+		copiaDto(dto, entidade);
+		entidade = repository.save(entidade);
+		return new ClientDTO(entidade);
+	}
+	
+	
+	
+	public void copiaDto (ClientDTO dto, Client entidade) {
+		entidade.setName(dto.getName());
+		entidade.setCpf(dto.getCpf());
+		entidade.setIncome(dto.getIncome());
+		entidade.setBirthDate(dto.getBirthDate());
+		entidade.setChildren(dto.getChildren());
+		
+	}
 }

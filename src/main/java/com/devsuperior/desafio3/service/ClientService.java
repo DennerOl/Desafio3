@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.devsuperior.desafio3.dto.ClientDTO;
 import com.devsuperior.desafio3.entities.Client;
 import com.devsuperior.desafio3.repositories.ClientRepository;
+import com.devsuperior.desafio3.service.exceptions.NotFoundException;
 
 @Service
 public class ClientService {
@@ -20,10 +21,9 @@ public class ClientService {
 	
 	@Transactional(readOnly = true)
 	public ClientDTO buscarPorId(Long id) {
-		Optional<Client> result = repository.findById(id);
-		Client client = result.get();
-		ClientDTO dto = new ClientDTO(client);
-		return dto;
+		Client result = repository.findById(id).orElseThrow(
+				() -> new NotFoundException("Cliente não existente"));
+		return new ClientDTO(result);
 		
 	}
 	
@@ -49,6 +49,10 @@ public class ClientService {
 		return new ClientDTO(entidade);
 	}
 	
+	@Transactional
+	public void delete(Long id) {
+		repository.deleteById(id);
+	}
 	
 	
 	public void copiaDto (ClientDTO dto, Client entidade) {

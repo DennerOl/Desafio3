@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.devsuperior.desafio3.dto.CustomError;
+import com.devsuperior.desafio3.service.exceptions.DataBaseException;
 import com.devsuperior.desafio3.service.exceptions.NotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,4 +22,6 @@ public class ContrExceptionHandler {
 	CustomError err = new CustomError(Instant.now(), status.value(),e.getMessage(), request.getRequestURI());
 	return ResponseEntity.status(status).body(err);
 	}
+	
+	
 }

@@ -19,6 +19,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.devsuperior.desafio3.dto.ClientDTO;
 import com.devsuperior.desafio3.service.ClientService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/clients")
 public class ClientController {
@@ -39,7 +41,7 @@ public class ClientController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<ClientDTO> inserir(@RequestBody ClientDTO dto){
+	public ResponseEntity<ClientDTO> inserir(@Valid @RequestBody ClientDTO dto){
 		dto = service.inserir(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(dto.getId()).toUri();
@@ -47,7 +49,7 @@ public class ClientController {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<ClientDTO> atualizar (@PathVariable Long id, @RequestBody ClientDTO dto){
+	public ResponseEntity<ClientDTO> atualizar (@PathVariable Long id, @Valid @RequestBody ClientDTO dto){
 		dto = service.atualizar(id, dto);
 		return ResponseEntity.ok(dto);
 	}

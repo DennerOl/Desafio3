@@ -4,15 +4,30 @@ import java.time.LocalDate;
 
 import com.devsuperior.desafio3.entities.Client;
 
-import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 public class ClientDTO {
 
 	private long id;
+	@Size(min = 3, max = 80, message = "Nome precisa ter de 3 a 80 caracteres")
+	@NotBlank(message = "Deve conter um nome")
 	private String name;
+	
+	@Size(min = 11, max = 11, message = "O campo nome deve ter entre 11 caracteres")
+	@NotBlank(message = "Deve conter um CPF")
 	private String cpf;
+	
+	@Positive(message = "A renda deve ser positiva")
 	private Double income;
+	
+	@PastOrPresent(message = "A data não pode ser futura")
 	private LocalDate birthDate;
+	
+	@Positive(message = "Deve conter um valor positivo")
 	private Integer children;
 	
 
